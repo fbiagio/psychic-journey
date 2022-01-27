@@ -1,0 +1,45 @@
+[2021-10-29 22:28:36,328: INFO/MainProcess] Connected to amqp://guest:**@192.168.56.10:5672//
+[2021-10-29 22:28:36,349: INFO/MainProcess] mingle: searching for neighbors
+[2021-10-29 22:28:37,399: INFO/MainProcess] mingle: sync with 1 nodes
+[2021-10-29 22:28:37,400: INFO/MainProcess] mingle: sync complete
+[2021-10-29 22:28:37,432: INFO/MainProcess] celery@worker2 ready.
+[2021-10-29 22:28:40,399: INFO/MainProcess] Events of group {task} enabled by remote.
+[2021-10-29 22:31:39,771: INFO/MainProcess] Task proj.tasks.change_power[499e6772-c1f0-404a-a924-5c0c2a07ce4b] received
+[2021-10-29 22:31:39,773: INFO/ForkPoolWorker-1] proj.tasks.change_power[499e6772-c1f0-404a-a924-5c0c2a07ce4b]: try to change powerstatus of server:  XXXXXXXXXXXXXXX
+[2021-10-29 22:31:39,804: INFO/ForkPoolWorker-1] Task proj.tasks.change_power[499e6772-c1f0-404a-a924-5c0c2a07ce4b] retry: Retry in 120s: TypeError('exceptions must derive from BaseException')
+[2021-10-29 22:31:42,375: INFO/MainProcess] Task proj.tasks.ping_console[ad63d019-6510-4790-8d43-ac24198f1670] received
+[2021-10-29 22:31:42,377: INFO/ForkPoolWorker-1] proj.tasks.ping_console[ad63d019-6510-4790-8d43-ac24198f1670]: try to ping servername:  10.0.0.0
+[2021-10-29 22:31:43,383: INFO/ForkPoolWorker-1] Task proj.tasks.ping_console[ad63d019-6510-4790-8d43-ac24198f1670] succeeded in 1.0067272900000717s: True
+[2021-10-29 22:31:43,383: INFO/MainProcess] Task proj.tasks.change_power[67fe89ae-918f-449e-b862-fed2596cf88f] received
+[2021-10-29 22:31:43,386: INFO/ForkPoolWorker-1] proj.tasks.change_power[67fe89ae-918f-449e-b862-fed2596cf88f]: try to change powerstatus of server:  XXXXXXXXXXXXXXX
+[2021-10-29 22:31:43,390: INFO/ForkPoolWorker-1] Task proj.tasks.change_power[67fe89ae-918f-449e-b862-fed2596cf88f] retry: Retry in 120s: TypeError('exceptions must derive from BaseException')
+[2021-10-29 22:31:47,176: INFO/MainProcess] Task proj.tasks.change_power[1fe3e270-7bf2-475e-a1b6-d5049aedbc3b] received
+[2021-10-29 22:31:47,178: INFO/ForkPoolWorker-1] proj.tasks.change_power[1fe3e270-7bf2-475e-a1b6-d5049aedbc3b]: try to change powerstatus of server:  XXXXXXXXXXXXXXX
+[2021-10-29 22:31:47,183: INFO/ForkPoolWorker-1] Task proj.tasks.change_power[1fe3e270-7bf2-475e-a1b6-d5049aedbc3b] retry: Retry in 120s: TypeError('exceptions must derive from BaseException')
+[2021-10-29 22:33:39,818: INFO/MainProcess] Task proj.tasks.change_power[499e6772-c1f0-404a-a924-5c0c2a07ce4b] received
+[2021-10-29 22:33:47,828: INFO/MainProcess] Task proj.tasks.change_power[1fe3e270-7bf2-475e-a1b6-d5049aedbc3b] received
+[2021-10-29 22:35:40,003: INFO/ForkPoolWorker-1] proj.tasks.change_power[499e6772-c1f0-404a-a924-5c0c2a07ce4b]: try to change powerstatus of server:  XXXXXXXXXXXXXXX
+[2021-10-29 22:35:40,009: INFO/ForkPoolWorker-1] Task proj.tasks.change_power[499e6772-c1f0-404a-a924-5c0c2a07ce4b] retry: Retry in 120s: TypeError('exceptions must derive from BaseException')
+[2021-10-29 22:35:44,016: INFO/MainProcess] Task proj.tasks.change_power[67fe89ae-918f-449e-b862-fed2596cf88f] received
+[2021-10-29 22:35:48,015: INFO/ForkPoolWorker-1] proj.tasks.change_power[1fe3e270-7bf2-475e-a1b6-d5049aedbc3b]: try to change powerstatus of server:  XXXXXXXXXXXXXXX
+[2021-10-29 22:35:48,019: INFO/ForkPoolWorker-1] Task proj.tasks.change_power[1fe3e270-7bf2-475e-a1b6-d5049aedbc3b] retry: Retry in 120s: TypeError('exceptions must derive from BaseException')
+[2021-10-29 22:37:44,209: INFO/ForkPoolWorker-1] proj.tasks.change_power[67fe89ae-918f-449e-b862-fed2596cf88f]: try to change powerstatus of server:  XXXXXXXXXXXXXXX
+[2021-10-29 22:37:44,215: ERROR/ForkPoolWorker-1] Task proj.tasks.change_power[67fe89ae-918f-449e-b862-fed2596cf88f] raised unexpected: TypeError('exceptions must derive from BaseException')
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/celery/app/trace.py", line 450, in trace_task
+    R = retval = fun(*args, **kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/celery/app/trace.py", line 731, in __protected_call__
+    return self.run(*args, **kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/celery/app/autoretry.py", line 54, in run
+    ret = task.retry(exc=exc, **retry_kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/celery/app/task.py", line 714, in retry
+    raise_with_context(exc)
+  File "/usr/local/lib/python3.7/dist-packages/celery/app/autoretry.py", line 34, in run
+    return task._orig_run(*args, **kwargs)
+  File "/vagrant/VMworker2/proj/tasks.py", line 23, in change_power
+    raise self.retry(exc=exc)
+  File "/usr/local/lib/python3.7/dist-packages/celery/app/task.py", line 714, in retry
+    raise_with_context(exc)
+  File "/vagrant/VMworker2/proj/tasks.py", line 21, in change_power
+    raise "test retry"
+TypeError: exceptions must derive from BaseException
