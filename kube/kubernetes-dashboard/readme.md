@@ -5,7 +5,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/a
 # create user and roles
 
 kubectl apply -n kubernetes-dashboard -f dashboard-adminuser.yaml
-kubectl apply -n kubernetes-dashboard -f dashboard-adminuser-rbac.yaml
+
 
 # get secret for access gui
 

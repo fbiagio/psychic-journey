@@ -1,10 +1,12 @@
 #root@worker1:/vagrant/src/worker1# celery -A proj worker -l INFO
+import os
 from celery import Celery
 #import celeryconfig
 
+
 app = Celery('proj',
-            broker='pyamqp://guest:guest@192.168.56.10:5672/',
-            backend='redis://192.168.56.10:6379/0',
+            broker=str(os.environ["CELERY_AMQP_URL"]),
+            backend=str(os.environ["CELERY_BACKEND_URL"]),
             include=['proj.tasks']
             )
 

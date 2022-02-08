@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: busybox-stateless
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-stateless
+  namespace: busybox-stateless
+  labels:
+    name: busybox-stateless
+spec:
+  containers:
+  - name: busybox-stateless
+    image: local/takke/busybox:v1.3
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+  

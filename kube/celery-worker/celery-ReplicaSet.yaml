@@ -1,0 +1,37 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: celery-worker
+---
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: celery-workers
+  namespace: celery-worker
+  labels:
+    app: workernode
+spec:
+  # modify replicas according to your case
+  replicas: 10
+  selector:
+    matchLabels:
+      app: workernode
+  template:
+    metadata:
+      labels:
+        app: workernode
+    spec:
+      containers:
+      - name: celery-worker
+        image: local/takke/celery:v1.0
+        env:
+          - name: CELERY_AMQP_URL
+            value: 'pyamqp://takke:takke@rabbitmq-stateless.rabbitmq-stateless:5672/'
+          - name: CELERY_BACKEND_URL
+            value: 'redis://redis-stateless.redis-stateless:6379/0'
+
+
+
+

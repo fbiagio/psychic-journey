@@ -18,14 +18,14 @@ spec:
     image: redis:7.0-rc1
     env:
       - name: ALLOW_EMPTY_PASSWORD
-        value: yes
+        value: "true"
     resources:
       limits:
         memory: "128Mi"
         cpu: "500m"
     ports:
-      - name: db
-        containerPort: 7000
+      - name: redisdb
+        containerPort: 6379
         protocol: TCP
       
 
@@ -40,9 +40,9 @@ metadata:
 spec:
   #type: NodePort
   ports:
-    - name: management
-      port: 7000
-      targetPort: 7000
+    - name: redisdb
+      port: 6379
+      targetPort: 6379
       #nodePort: 31111
   selector:
     name: redis-stateless
