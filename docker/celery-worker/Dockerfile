@@ -1,5 +1,4 @@
-FROM python:3
-
+FROM python:latest
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 PYTHONUNBUFFERED=1
 COPY requirements.txt ./
 
@@ -14,6 +13,7 @@ ENV CELERY_AMQP_URL='pyamqp://guest:guest@127.0.0.1:5672/'
 ENV CELERY_BACKEND_URL='redis://localhost:6379/0'
 
 WORKDIR /
+
 CMD [ "celery", "-A", "proj", "worker", "-l", "info" ]
 
 # nerdctl build . -f Dockerfile -t takke/celery

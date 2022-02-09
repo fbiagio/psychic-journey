@@ -1,0 +1,34 @@
+FROM python:latest
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 PYTHONUNBUFFERED=1
+COPY requirements.txt ./
+
+WORKDIR / 
+
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+ENV CELERY_AMQP_URL='pyamqp://guest:guest@127.0.0.1:5672/'
+ENV CELERY_BACKEND_URL='redis://localhost:6379/0'
+#ENV FLOWERIP='0.0.0.0'
+
+EXPOSE  5555
+
+WORKDIR /
+
+#CMD [ celery", "--broker=", "$CELERY_AMQP_URL", "--result-backend=", "$CELERY_BACKEND_URL" ]
+CMD  celery --broker $CELERY_AMQP_URL --result-backend $CELERY_BACKEND_URL flower --Address=None
+
+# nerdctl build . -f DockerfileFlower -t takke/flower
+# nerdctl run -it --rm takke/flower
+# nerdctl rmi takke/flower
+
+
+## TO TEST BUILD 
+# nerdctl rmi takke/flower ; nerdctl build . -f DockerfileFlower -t takke/flower && nerdctl run -it --rm takke/flower
+
+
+## TO PULL for kube
+# nerdctl -n k8s.io build . -f DockerfileFlower -t local/takke/flower:v1.0
+# nerdctl -n k8s.io run -d -exec local/takke/flower:v1.0
