@@ -1,0 +1,167 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: myns
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myrabbitmq
+  namespace: myns
+  labels:
+    name: myrabbitmq
+spec:
+  containers:
+  - name: rabbitmq-stateless
+    image: rabbitmq:3.9.13-management
+    env:
+      - name: RABBITMQ_DEFAULT_USER
+        value: takke
+      - name: RABBITMQ_DEFAULT_PASS
+        value: takke
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - name: management
+        containerPort: 15672
+        protocol: TCP
+      - name: amqp
+        containerPort: 5672
+        protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+  namespace: myns
+  labels:
+    name: rabbitmq
+spec:
+  ports:
+    - name: management
+      port: 15672
+      targetPort: 15672
+    - name: amqp
+      port: 5672
+      targetPort: 5672
+      protocol: TCP
+  selector:
+    name: rabbitmq
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis
+  namespace: myns
+  labels:
+    name: redis
+spec:
+  containers:
+  - name: redis
+    image: redis:7.0-rc1
+    env:
+      - name: ALLOW_EMPTY_PASSWORD
+        value: "true"
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - name: redisdb
+        containerPort: 6379
+        protocol: TCP
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: myns
+  labels:
+    name: redis-stateless
+spec:
+  #type: NodePort
+  ports:
+    - name: redisdb
+      port: 6379
+      targetPort: 6379
+      #nodePort: 31111
+  selector:
+    name: redis
+
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: celery
+  namespace: myns
+spec:
+  replicas: 5
+  selector:
+    name: celery
+  template:
+    metadata:
+      name: celery
+      labels:
+        name: celery
+    spec:
+      containers:
+      - name: celery
+        image: local/takke/celery:v2.0
+        env:
+          - name: CELERY_AMQP_URL
+            value: 'pyamqp://takke:takke@rabbitmq-stateless.rabbitmq-stateless:5672/'
+          - name: CELERY_BACKEND_URL
+            value: 'redis://redis-stateless.redis-stateless:6379/0'
+          - name: LOGLEVEL
+            value: 'info'
+          - name: CONCURR
+            value: '2'
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: flower
+  namespace: myns
+  labels:
+    name: flower
+spec:
+  containers:
+  - name: flower
+    image: local/takke/flower:v2.0
+    env:
+      - name: CELERY_AMQP_URL
+        value: 'pyamqp://takke:takke@rabbitmq-stateless.rabbitmq-stateless:5672/'
+      - name: CELERY_BACKEND_URL
+        value: 'redis://redis-stateless.redis-stateless:6379/0'
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - name: flowermonitor
+        containerPort: 5555
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flower
+  namespace: myns
+  labels:
+    name: flower
+spec:
+  #type: NodePort
+  ports:
+    - name: flowerHTTP
+      port: 5555
+      targetPort: 5555
+  selector:
+    name: flower

@@ -11,10 +11,12 @@ COPY . .
 
 ENV CELERY_AMQP_URL='pyamqp://guest:guest@127.0.0.1:5672/'
 ENV CELERY_BACKEND_URL='redis://localhost:6379/0'
+ENV LOGLEVEL="info"
+ENV CONCURR=1
 
 WORKDIR /
 
-CMD [ "celery", "-A", "proj", "worker", "-l", "info" ]
+CMD celery -A proj worker -l $LOGLEVEL --concurrency=$CONCURR
 
 # nerdctl build . -f Dockerfile -t takke/celery
 # nerdctl run -it --rm takke/celery

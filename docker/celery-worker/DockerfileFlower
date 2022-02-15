@@ -18,7 +18,7 @@ EXPOSE  5555
 WORKDIR /
 
 #CMD [ celery", "--broker=", "$CELERY_AMQP_URL", "--result-backend=", "$CELERY_BACKEND_URL" ]
-CMD  celery --broker $CELERY_AMQP_URL --result-backend $CELERY_BACKEND_URL flower --Address=None
+CMD  celery --broker $CELERY_AMQP_URL --result-backend $CELERY_BACKEND_URL flower --Address=None --purge_offline_workers=120
 
 # nerdctl build . -f DockerfileFlower -t takke/flower
 # nerdctl run -it --rm takke/flower
