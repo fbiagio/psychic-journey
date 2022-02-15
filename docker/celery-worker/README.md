@@ -9,9 +9,8 @@
 
 
 ## TO PULL for kube
-# nerdctl -n k8s.io build . -f DockerfileFlower -t local/takke/flower:v1.0
-# nerdctl -n k8s.io run -d -exec local/takke/flower:v1.0
+# nerdctl -n k8s.io build . -f DockerfileFlower -t local/takke/flower:3.0
+# nerdctl -n k8s.io build . -f Dockerfile -t local/takke/celery:2.0
 
-## TO PULL for kube
-# nerdctl -n k8s.io build . -f Dockerfile -t local/takke/celery:v2.0
-# nerdctl -n k8s.io run -d -exec local/takke/celery:v1.0
+# nerdctl -n k8s.io run -d -exec local/takke/flower:1.0
+# nerdctl -n k8s.io run -d -exec local/takke/celery:1.0

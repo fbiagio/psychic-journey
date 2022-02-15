@@ -18,16 +18,4 @@ WORKDIR /
 
 CMD celery -A proj worker -l $LOGLEVEL --concurrency=$CONCURR
 
-# nerdctl build . -f Dockerfile -t takke/celery
-# nerdctl run -it --rm takke/celery
-# nerdctl rmi takke/celery
- 
 
-
-## TO TEST BUILD 
-# nerdctl rmi takke/celery ; nerdctl build . -f Dockerfile -t takke/celery && nerdctl run -it --rm takke/celery
-
-
-## TO PULL for kube
-# nerdctl -n k8s.io build . -f Dockerfile -t local/takke/celery:v1.0
-# nerdctl -n k8s.io run -d -exec local/takke/celery:v1.0

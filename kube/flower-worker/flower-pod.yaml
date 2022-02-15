@@ -36,28 +36,6 @@ spec:
 
 ---
 apiVersion: v1
-kind: Pod
-metadata:
-  name: toolbox
-  namespace: flower-worker
-  labels:
-    name: toolbox
-spec:
-  containers:
-  - name: flower-worker
-    image: ubuntu:latest
-    command:
-      - "sleep"
-      - "604800"
-    resources:
-      limits:
-        memory: "128Mi"
-        cpu: "500m"
-    
-
-
----
-apiVersion: v1
 kind: Service
 metadata:
   name: flower-worker
