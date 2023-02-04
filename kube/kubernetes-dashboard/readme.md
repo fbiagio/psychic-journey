@@ -20,4 +20,4 @@
 
 to deploy a dashboard using nodeport 
 
-> kubectl apply -f recommendedNODEPORT.yaml
+> kubectl apply -f recommendedNODEPORT.yamlx1
